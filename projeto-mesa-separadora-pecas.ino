@@ -1,8 +1,8 @@
 #define SENSOR_BAIXA    2  /* PINO USADO COMO ENTRADA - LEITURA DO SENSOR OPTICO PECA BAIXA */
-#define SENSOR_MEDIA    3  /* PINO USADO COMO ENTRADA - LEITURA DO SENSOR OPTICO PECA MEDIA */
+#define SENSOR_MEDIA    6  /* PINO USADO COMO ENTRADA - LEITURA DO SENSOR OPTICO PECA MEDIA */
 #define SENSOR_ALTA     4  /* PINO USADO COMO ENTRADA - LEITURA DO SENSOR OPTICO PECA ALTA */
 #define RAMPA_1         5  /* PINO USADO COMO ENTRADA - LEITURA DO SENSOR DE FIBRA OPTICA DA RAMPA 1 */
-#define RAMPA_2         6  /* PINO USADO COMO ENTRADA - LEITURA DO SENSOR DE FIBRA OPTICA DA RAMPA 2 */
+//#define RAMPA_2         6  /* PINO USADO COMO ENTRADA - LEITURA DO SENSOR DE FIBRA OPTICA DA RAMPA 2 */
 #define RAMPA_3         7  /* PINO USADO COMO ENTRADA - LEITURA DO SENSOR DE FIBRA OPTICA DA RAMPA 3 */
 #define ESTEIRA         8  /* PINO USADO COMO SAIDA -  */
 #define BT_RESET        9  /* PINO USADO COMO ENTRADA -  */
@@ -11,9 +11,9 @@
 #define SOLENOIDE_1_R   12 /* PINO USADO COMO SAIDA - VALVULA SOLENOIDE DUPLA RECUO */
 #define SOLENOIDE_2     13 /* PINO USADO COMO SAIDA - VALVULA SOLENOIDE SIMPLES */
 #define SOLENOIDE_3     14 /* PINO USADO COMO SAIDA - VALVULA SOLENOIDE SIMPLES */
-#define TIMEOUT_LEITURA_PECA    3750 /* tempo de leitura entre os sensores */
-#define TIMEOUT_SOLENOIDE       12585
-#define OFFSET                  5100
+#define TIMEOUT_LEITURA_PECA    2000 /* tempo de leitura entre os sensores */
+#define TIMEOUT_SOLENOIDE       1000
+#define OFFSET                 2500
 /*  tipos de altura de peca. Possui um valor nulo para funcionar como 
     inicializacao */
 typedef enum
@@ -76,7 +76,7 @@ void setup()
     pinMode(SENSOR_MEDIA, INPUT);
     pinMode(SENSOR_ALTA, INPUT);
     pinMode(RAMPA_1, INPUT);
-    pinMode(RAMPA_2, INPUT);
+//    pinMode(RAMPA_2, INPUT);
     pinMode(RAMPA_3, INPUT);
     pinMode(BT_RESET, INPUT);
 
@@ -128,11 +128,11 @@ void loop()
     switch (sm_peca)
     {
         case WAIT_LOW:
-            if (1 == digitalRead(SENSOR_BAIXA))
-            {
-                delay(100);
-            }
-            if (1 == digitalRead(SENSOR_BAIXA))
+//            if (HIGH == digitalRead(SENSOR_BAIXA))
+//            {
+//                delay(100);
+//            }
+            if (HIGH == digitalRead(SENSOR_BAIXA))
             {
                 /*  salva uma nova peca como baixa, o tempo atual e como 
                     invalida. Passa para o proximo estado de processamento.  */
@@ -144,11 +144,11 @@ void loop()
         break;
 
         case WAIT_MED:
-            if (1 == digitalRead(SENSOR_MEDIA))
-            {
-                delay(100);
-            }
-            if(1 == digitalRead(SENSOR_MEDIA))
+//            if (HIGH == digitalRead(SENSOR_MEDIA))
+//            {
+//                delay(100);
+//            }
+            if(HIGH == digitalRead(SENSOR_MEDIA))
             {
                 /*  ao receber o sinal de SENSOR_MEDIA, classifica nova peca 
                 como media */
@@ -170,11 +170,11 @@ void loop()
         break;
 
         case WAIT_HIGH:        
-            if (1 == digitalRead(SENSOR_ALTA))
-            {
-                delay(100);
-            }
-            if(1 == digitalRead(SENSOR_ALTA))
+//            if (HIGH == digitalRead(SENSOR_ALTA))
+//            {
+//                delay(100);
+//            }
+            if(HIGH == digitalRead(SENSOR_ALTA))
             {
                 /*  ao receber o sinal de SENSOR_ALTA, classifica nova peca 
                 como alta */
@@ -361,12 +361,12 @@ void Ativar_Solenoide(uint8_t solenoide)
     case 1:
         digitalWrite(SOLENOIDE_1_R, LOW);
 
-        delay(500);
+        delay(3500);
 
         digitalWrite(SOLENOIDE_1_R, HIGH);
         digitalWrite(SOLENOIDE_1_A, LOW);
 
-        delay(500);
+        delay(3500);
 
         digitalWrite(SOLENOIDE_1_A, HIGH);
         Serial.println("1");
@@ -375,7 +375,7 @@ void Ativar_Solenoide(uint8_t solenoide)
     case 2:
         digitalWrite(SOLENOIDE_2, LOW);
 
-        delay(500);
+        delay(3500);
 
         digitalWrite(SOLENOIDE_2, HIGH);
         Serial.println("2");
@@ -384,7 +384,7 @@ void Ativar_Solenoide(uint8_t solenoide)
     case 3:
         digitalWrite(SOLENOIDE_3, LOW);
 
-        delay(500);
+        delay(3500);
 
         digitalWrite(SOLENOIDE_3, HIGH);
         Serial.println("3");
