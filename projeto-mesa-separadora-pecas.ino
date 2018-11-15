@@ -13,7 +13,7 @@
 #define SOLENOIDE_3     14 /* PINO USADO COMO SAIDA - VALVULA SOLENOIDE SIMPLES */
 #define TIMEOUT_LEITURA_PECA    2000 /* tempo de leitura entre os sensores */
 #define TIMEOUT_SOLENOIDE       1000
-#define OFFSET                 2500
+#define OFFSET                  2500
 /*  tipos de altura de peca. Possui um valor nulo para funcionar como 
     inicializacao */
 typedef enum
@@ -75,9 +75,6 @@ void setup()
     pinMode(SENSOR_BAIXA, INPUT);
     pinMode(SENSOR_MEDIA, INPUT);
     pinMode(SENSOR_ALTA, INPUT);
-    pinMode(RAMPA_1, INPUT);
-//    pinMode(RAMPA_2, INPUT);
-    pinMode(RAMPA_3, INPUT);
     pinMode(BT_RESET, INPUT);
 
     pinMode(SOLENOIDE_1_A, OUTPUT);
@@ -128,10 +125,6 @@ void loop()
     switch (sm_peca)
     {
         case WAIT_LOW:
-//            if (HIGH == digitalRead(SENSOR_BAIXA))
-//            {
-//                delay(100);
-//            }
             if (HIGH == digitalRead(SENSOR_BAIXA))
             {
                 /*  salva uma nova peca como baixa, o tempo atual e como 
@@ -144,10 +137,6 @@ void loop()
         break;
 
         case WAIT_MED:
-//            if (HIGH == digitalRead(SENSOR_MEDIA))
-//            {
-//                delay(100);
-//            }
             if(HIGH == digitalRead(SENSOR_MEDIA))
             {
                 /*  ao receber o sinal de SENSOR_MEDIA, classifica nova peca 
@@ -169,11 +158,7 @@ void loop()
             }
         break;
 
-        case WAIT_HIGH:        
-//            if (HIGH == digitalRead(SENSOR_ALTA))
-//            {
-//                delay(100);
-//            }
+        case WAIT_HIGH:
             if(HIGH == digitalRead(SENSOR_ALTA))
             {
                 /*  ao receber o sinal de SENSOR_ALTA, classifica nova peca 
